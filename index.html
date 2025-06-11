@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,225 +7,12 @@
         <meta name="author" content="" />
         <title>Resume - Start Bootstrap Theme</title>
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
-        
-        <!-- gemeni vibe code script-->
-        <script defer>
-            window.addEventListener('DOMContentLoaded', event => {
-                // Function to calculate the height of the fixed navbar
-                function calculateNavbarHeight() {
-                const navbar = document.querySelector('.navbar');
-                return navbar ? navbar.offsetHeight : 0;
-                }
-
-                // Function to initialize or refresh scrollspy
-                function initScrollSpy() {
-                const sideNav = document.body.querySelector('#sideNav');
-                if (sideNav) {
-                    // Set the offset to the dynamically calculated height of the navbar
-                    const navbarHeight = calculateNavbarHeight();
-                    new bootstrap.ScrollSpy(document.body, {
-                    target: '#sideNav',
-                    offset: navbarHeight,
-                    });
-
-                    // Debugging: Log the current active section
-                    document.body.addEventListener('activate.bs.scrollspy', function (e) {
-                    console.log('Scrollspy active section:', e.target.querySelector('.active').getAttribute('href'));
-                    });
-                }
-                }
-
-                // Initialize scrollspy
-                initScrollSpy();
-
-                // Collapse responsive navbar when toggler is visible
-                const navbarToggler = document.body.querySelector('.navbar-toggler');
-                const responsiveNavItems = [].slice.call(
-                document.querySelectorAll('#navbarResponsive .nav-link')
-                );
-                responsiveNavItems.map(function (responsiveNavItem) {
-                responsiveNavItem.addEventListener('click', () => {
-                    if (window.getComputedStyle(navbarToggler).display !== 'none') {
-                    navbarToggler.click();
-                    }
-                });
-                });
-
-                // Recalculate and reinitialize scrollspy on window resize
-                window.addEventListener('resize', function() {
-                initScrollSpy();
-                });
-
-                // --- Logic to handle highlighting on page load based on hash ---
-                function handleHashOnLoad() {
-                const hash = window.location.hash || '#about';
-                const targetNavLink = document.querySelector(`.nav-link[href="${hash}"]`);
-
-                // Remove active class from all nav links
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                });
-
-                if (targetNavLink) {
-                    targetNavLink.classList.add('active');
-                } else {
-                    // Fallback to 'about' if no matching link
-                    const aboutLink = document.querySelector('.nav-link[href="#about"]');
-                    if (aboutLink) {
-                    aboutLink.classList.add('active');
-                    }
-                }
-                }
-
-                // Call handleHashOnLoad when the DOM is fully loaded
-                handleHashOnLoad();
-
-                // Optional: If you want to update the active class on hash changes (though Scrollspy should handle this during navigation)
-                window.addEventListener('hashchange', handleHashOnLoad);
-            });
-        </script>
-
-        <!-- <script defer> //AI vibe code to attempt to fix refresh issue
-            document.addEventListener('DOMContentLoaded', function() {
-                // Handle initial page load
-                highlightSectionFromHash();
-
-                // Handle hash changes
-                window.addEventListener('hashchange', highlightSectionFromHash);
-            });
-
-            function highlightSectionFromHash() {
-                // Remove all active classes first
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                });
-
-                // Get current hash
-                const hash = window.location.hash;
-
-                // If there's a hash, find and highlight the corresponding nav item
-                if (hash) {
-                    const navLink = document.querySelector(`.nav-link[href="${hash}"]`);
-                    if (navLink) {
-                        navLink.classList.add('active');
-
-                        // Scroll to the section
-                        const section = document.querySelector(hash);
-                        if (section) {
-                            section.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    }
-                } else {
-                    // Default to highlighting the "About" section if no hash
-                    const defaultLink = document.querySelector('.nav-link[href="#about"]');
-                    if (defaultLink) {
-                        defaultLink.classList.add('active');
-                    }
-                }
-            }
-        </script> -->
-        <!-- <script defer> //AI vibe code to attempt to fix refresh issue - kind of helps
-            document.addEventListener('DOMContentLoaded', function() {
-                console.log('DOM fully loaded and parsed');
-
-                // Initialize navigation
-                initializeNavigation();
-
-                // Log current hash on page load
-                console.log('Initial hash:', window.location.hash);
-
-                // Handle initial page load
-                handleHashChange();
-
-                // Handle hash changes
-                window.addEventListener('hashchange', function() {
-                    console.log('Hash changed to:', window.location.hash);
-                    handleHashChange();
-                });
-            });
-
-            function initializeNavigation() {
-                // Set up smooth scrolling for all anchor links
-                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                    anchor.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        console.log('Nav link clicked:', this.getAttribute('href'));
-
-                        // Update URL without reloading
-                        const targetId = this.getAttribute('href');
-                        history.pushState(null, null, targetId);
-
-                        // Handle the navigation
-                        handleHashChange();
-                    });
-                });
-            }
-
-            function handleHashChange() {
-                console.log('Handling hash change...');
-
-                // Remove all active classes first
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                    console.log('Removed active class from:', link.getAttribute('href'));
-                });
-
-                // Get current hash, default to 'about' if empty
-                const hash = window.location.hash || '#about';
-                console.log('Current hash:', hash);
-
-                // Find and highlight the corresponding nav item
-                const navLink = document.querySelector(`.nav-link[href="${hash}"]`);
-                if (navLink) {
-                    console.log('Found matching nav link:', hash);
-                    navLink.classList.add('active');
-
-                    // Scroll to the section with a small delay to ensure DOM is ready
-                    setTimeout(() => {
-                        const section = document.querySelector(hash);
-                        if (section) {
-                            console.log('Scrolling to section:', hash);
-                            section.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                        } else {
-                            console.warn('Section not found:', hash);
-                        }
-                    }, 50);
-                } else {
-                    console.warn('No matching nav link found for hash:', hash);
-
-                    // If no matching nav link found, default to 'about'
-                    const defaultLink = document.querySelector('.nav-link[href="#about"]');
-                    if (defaultLink) {
-                        console.log('Defaulting to about section');
-                        defaultLink.classList.add('active');
-                        setTimeout(() => {
-                            const defaultSection = document.querySelector('#about');
-                            if (defaultSection) {
-                                defaultSection.scrollIntoView({
-                                    behavior: 'smooth',
-                                    block: 'start'
-                                });
-                            }
-                        }, 50);
-                    } else {
-                        console.error('Default about link not found!');
-                    }
-                }
-            }
-        </script> -->
     </head>
     <body id="page-top">
-        <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
                 <span class="d-block d-lg-none">Arthur LeBlanc</span>
@@ -242,34 +28,27 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#publications">Publications</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Skills</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Interests</a></li>
-		            <!--<li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Awards</a></li>-->
-                </ul>
+                    </ul>
             </div>
         </nav>
-        <!-- Page Content-->
         <div class="container-fluid p-0">
-            <!-- About-->
             <section class="resume-section" id="about">
                 <div class="resume-section-content">
                     <h1 class="mb-0">
                         Arthur
-			<span class="text-primary">LeBlanc</span>
+                        <span class="text-primary">LeBlanc</span>
                     </h1>
                     <div class="subheading mb-5">
-                        <!--245 Rhodes Dr. · Athens, GA 30605 · (601) 260-4888 ·-->
-                        <a href="mailto:name@email.com">arthurlebl@gmail.com</a>
+                        <a href="mailto:name@email.com">arthurlebl@gmail.com</a>  <!--275 Greenwood Lane · Athens, GA 30606 · (601) 260-4888 ·-->
                     </div>
                     <p class="lead mb-5">Continually improving my code, data analysis, and machine learning skills. My background in Polymer Science helped start an interest in data manipulation and continual creation of interesting projects. It started with experimentation and continues with debugging and publications. I have self-started several projects and continue to improve my skills.</p>
                     <div class="social-icons">
                         <a class="social-icon" href="https://github.com/AhPLe"><i class="fab fa-github"></i></a>
                         <a class="social-icon" href="https://www.linkedin.com/in/arthur-leblanc-8269675a/"><i class="fab fa-linkedin-in"></i></a>
-			<!--<a class="social-icon" href="#!"><i class="fab fa-twitter"></i></a>-->
-			<!--<a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>-->
                     </div>
                 </div>
             </section>
             <hr class="m-0" />
-            <!-- Experience-->
             <section class="resume-section" id="experience">
                 <div class="resume-section-content">
                     <h2 class="mb-5">Experience</h2>
@@ -289,8 +68,6 @@
                         </div>
                         <div class="flex-shrink-0"><span class="text-primary">August 2022 – Present</span></div>
                     </div>
-
-                    <!-- Lab Technician -->
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
                             <h3 class="mb-0">Lab Technician</h3>
@@ -306,7 +83,6 @@
                 </div>
             </section>
             <hr class="m-0" />
-            <!-- Education-->
             <section class="resume-section" id="education">
                 <div class="resume-section-content">
                     <h2 class="mb-5">Education</h2>
@@ -315,76 +91,49 @@
                             <h3 class="mb-0">University of Georgia</h3>
                             <div class="subheading mb-3">MAMS emph. in Computer Science</div>
                             <p>GPA: 3.74</p>
-			            </div>
-                        <!--<div class="flex-shrink-0"><span class="text-primary">August - May</span></div>-->
+                        </div>
                     </div>
                     <div class="d-flex flex-column flex-md-row justify-content-between">
                         <div class="flex-grow-1">
                             <h3 class="mb-0">University of Southern Mississippi</h3>
                             <div class="subheading mb-3">BA in Polymer Science</div>
                             <p>GPA: 3.21</p>
-			            </div>
-                        <!--<div class="flex-shrink-0"><span class="text-primary">August - May</span></div>-->
+                        </div>
                     </div>
                 </div>
             </section>
             <hr class="m-0" />
-            <!-- Projects-->
             <section class="resume-section" id="projects">
                 <div class="resume-section-content">
                     <h2 class="mb-5">Projects</h2>
-                        <!-- Oil Data Analysis Project -->
                         <span class="fa-li"><i class="fas fa-check"></i></span>
                         <h3 class="mb-0">Oil Data Analysis</h3>
                         <div class="project-visualization">
-                            <div>                        
+                            <div>
                                 <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
                                 <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-                                <div id="cc49443f-88ac-4281-bebf-dd4888484e72" class="plotly-graph-div" style="height:100%; width:100%;"></div>            
-                                <script type="text/javascript">                                    
-                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    
-                                    if (document.getElementById("cc49443f-88ac-4281-bebf-dd4888484e72")) {                    
-                                        Plotly.newPlot(                        
-                                            "cc49443f-88ac-4281-bebf-dd4888484e72",                        
-                                            [{"marker":{"color":["yellow","orange","red","green"],"line":{"color":"black","width":2}},"x":["Exxon","Shell","BP","Chevron"],"y":[207220.0,348016.0,644581.0,401.9],"type":"bar"}],                        
-                                            {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],
-                                                [0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},
-                                                "colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],
-                                                "heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],
-                                                    [0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],
-                                                    [0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},
-                                                "colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],
-                                                "surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],
-                                                    [0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],
-                                                "parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},
-                                                "marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],
-                                                "histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],
-                                                "scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox",
-                                                "marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],
-                                            "carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],
-                                            "table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],
-                                            "pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6",
-                                            "polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},
-                                            "caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],
-                                                [0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],
-                                                [0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"",
-                                            "title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white",
-                                            "showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,
-                                            "ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},
-                                            "title":{"text":"Barrels Spilled Per Company - Max Tonnes (1165 liters of oil)"},"xaxis":{"title":{"text":"Company and Subsidiaries Name"}},"yaxis":{"title":{"text":"Max Tonnes (1165 liters of oil)"}}},                        {"responsive": true}                    )                };
-                                </script>        
+                                <div id="cc49443f-88ac-4281-bebf-dd4888484e72" class="plotly-graph-div" style="height:100%; width:100%;"></div>
+                                <script type="text/javascript">
+                                    window.PLOTLYENV=window.PLOTLYENV || {};
+                                    if (document.getElementById("cc49443f-88ac-4281-bebf-dd4888484e72")) {
+                                        Plotly.newPlot(
+                                            "cc49443f-88ac-4281-bebf-dd4888484e72",
+                                            [{"marker":{"color":["yellow","orange","red","green"],"line":{"color":"black","width":2}},"x":["Exxon","Shell","BP","Chevron"],"y":[207220.0,348016.0,644581.0,401.9],"type":"bar"}],
+                                            {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"], [0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""}, "colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}], "heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"], [0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"], [0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""}, "colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}], "surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"], [0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}], "parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"}, "marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}], "histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}], "scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox", "marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}], "carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}], "table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}], "pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6", "polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""}, "caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"], [0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"], [0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"", "title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white", "showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true, "ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}}, "title":{"text":"Barrels Spilled Per Company - Max Tonnes (1165 liters of oil)"},"xaxis":{"title":{"text":"Company and Subsidiaries Name"}},"yaxis":{"title":{"text":"Max Tonnes (1165 liters of oil)"}}},
+                                            {"responsive": true}
+                                        );
+                                    };
+                                </script>
                             </div>
-                            <p style="text-indent:30px;">Graph and writeup of <a href="https://en.wikipedia.org/wiki/List_of_oil_spills">List of Oil Spills</a> on wikipedia as a personal project to look into which gas product creates the smallest footprint on <a href="https://www.youtube.com/watch?v=3m5qxZm_JqM#t=1m28s">the environment</a>. Work is expected to be 
+                            <p style="text-indent:30px;">Graph and writeup of <a href="https://en.wikipedia.org/wiki/List_of_oil_spills">List of Oil Spills</a> on wikipedia as a personal project to look into which gas product creates the smallest footprint on <a href="https://www.youtube.com/watch?v=3m5qxZm_JqM#t=1m28s">the environment</a>. Work is expected to be
                                 continually ongoing since large issues such as import from other oil sources and worker accidents could have a large effect on the graph and the data could continuously be an effort of research. While the issues are recognized and important, the current graph is meant to provide a  baseline of information on the subject and a basis for discussion.</p>
                         </div>
-                        <!-- Adversarial Genetic Boid Program -->
                         <span class="fa-li"><i class="fas fa-check"></i></span>
                         <h3 class="mb-0">Adversarial Genetic Boid Program</h3>
                         <p style="text-indent:30px;">Created, analyzed, and provided report on a boid (simulated bird) program that pitted a predator and prey boid against each other. The parameters guiding the behavior of the boids was modified using genetic programming and the data was analyzed and summarized.</p>
                 </div>
             </section>
             <hr class="m-0" />
-            <!-- Publications-->
             <section class="resume-section" id="publications">
                 <div class="resume-section-content">
                     <h2 class="mb-5">Publications</h2>
@@ -392,50 +141,42 @@
                         <div class="flex-grow-1">
                             <h3 class="mb-0">IEEE Transactions on Instrumentation and Measurement</h3>
                             <p>LeBlanc, A.; Trabelsi, S.; Rasheed, K.; Miller, J. M.; “Machine Learning Algorithms for Nondestructive Sensing of Moisture Content in Grain and Seed” IEEE Transactions on Instrumentation and Measurement. <a href=https://doi.org/10.1109/OJIM.2025.3568080>10.1109/OJIM.2025.3568080</a></p>
-			            </div>
+                        </div>
                         <div class="flex-shrink-0"><span class="text-primary">2025</span></div>
                     </div>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
                             <h3 class="mb-0">IEEE Sensors</h3>
                             <p>LeBlanc, A.; Trabelsi, S.; “Machine Learning Algorithms for Nondestructive Moisture Content Prediction in Grain and Seed with Variable Temperature” IEEE Sensors Journal. Unpublished as of April, 2025.</p>
-			            </div>
+                        </div>
                         <div class="flex-shrink-0"><span class="text-primary">2025</span></div>
                     </div>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
                             <h3 class="mb-0">Journal of Polymer Science, Part A: Polymer Chemistry</h3>
                             <p>Hensarling R, Hoff E, LeBlanc, A.; Guo, W.; Rahane, S.; Patton, D.; “Photocaged pendent thiol polymer brush surfaces for post-polymerization modifications via thiol-click chemistry” Journal of Polymer Science, Part A: Polymer Chemistry. <a href=https://doi.org/10.1002/pola.26468>10.1002/pola.26468</a></p>
-			            </div>
+                        </div>
                         <div class="flex-shrink-0"><span class="text-primary">2012</span></div>
                     </div>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
                             <h3 class="mb-0">Macromolecular Rapid Communications</h3>
                             <p>Guo W, Hensarling R, LeBlanc, A, Hoff E, Baranek A, Patton D, “Rapid Synthesis of Polymer Brush Surfaces via Microwave-Assisted Surface-Initiated Radical Polymerization” Macromolecular Rapid Communications. 2012, 33, 863-868. <a href=https://doi.org/10.1002/marc.201100829>10.1002/marc.201100829</a></p>
-			            </div>
+                        </div>
                         <div class="flex-shrink-0"><span class="text-primary">2012</span></div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">The Polymer Chemistry</h3>
-                            <p>Hensarling R, Rahane S, LeBlanc, A., Sparks B, White E, Locklin J, Patton D, “Thiol-Isocyanate “Click” Reactions: Rapid Development of Functional Polymeric Surfaces” The Polymer Chemistry. 2011, 2, 88-90. <a href=http://dx.doi.org/10.1039/c0py00292e>10.1039/c0py00292e</a></p>
-			            </div>
-                        <div class="flex-shrink-0"><span class="text-primary">2011</span></div>
                     </div>
                 </div>
             </section>
             <hr class="m-0" />
-            <!-- Skills-->
             <section class="resume-section" id="skills">
                 <div class="resume-section-content">
                     <h2 class="mb-5">Skills</h2>
                     <div class="subheading mb-3">Programming Languages & Tools</div>
                     <ul class="list-inline dev-icons">
                         <li class="list-inline-item"><i class="fab fa-python"></i></li>
-			<li class="list-inline-item">SQL<!--<i class="fab fa-SQL"></i>--></li>
+                        <li class="list-inline-item">SQL</li>
                         <li class="list-inline-item"><i class="fab fa-java"></i></li>
-			<li class="list-inline-item">C++<!--<i class="fab fa-C++"></i>--></li>
+                        <li class="list-inline-item">C++</li>
                     </ul>
                     <div class="subheading mb-3">Workflow</div>
                     <ul class="fa-ul mb-0">
@@ -455,67 +196,90 @@
                 </div>
             </section>
             <hr class="m-0" />
-            <!-- Interests-->
             <section class="resume-section" id="interests">
                 <div class="resume-section-content">
                     <h2 class="mb-5">Interests</h2>
                     <p>Apart from programming, I enjoy spending time with friends and family, board games, video games, and have spent years playing ultimate frisbee. While indoors I enjoy the sci-fi and fantasy genre of shows, movies, and books. I also tinker with various programming projects.</p>
-		    <!--<p class="mb-0">When forced indoors, I follow a number of sci-fi and fantasy genre movies and television shows, I am an aspiring chef, and I spend a large amount of my free time exploring the latest technology advancements in the front-end web development world.</p>-->
-                </div>
+                    </div>
             </section>
             <hr class="m-0" />
-            <!-- Awards-->
-	    <!--
-            <section class="resume-section" id="awards">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Awards & Certifications</h2>
-                    <ul class="fa-ul mb-0">
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            Google Analytics Certified Developer
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            Mobile Web Specialist - Google Certification
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            1
-                            <sup>st</sup>
-                            Place - University of Colorado Boulder - Emerging Tech Competition 2009
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            1
-                            <sup>st</sup>
-                            Place - University of Colorado Boulder - Adobe Creative Jam 2008 (UI Design Category)
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            2
-                            <sup>nd</sup>
-                            Place - University of Colorado Boulder - Emerging Tech Competition 2008
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            1
-                            <sup>st</sup>
-                            Place - James Buchanan High School - Hackathon 2006
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            3
-                            <sup>rd</sup>
-                            Place - James Buchanan High School - Hackathon 2005
-                        </li>
-                    </ul>
-	     </div>
-		-->
-            </section>
-        </div>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+            </div>
+
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                const sections = document.querySelectorAll('.resume-section');
+                const navLinks = document.querySelectorAll('.nav-link');
+                const lastSection = sections[sections.length - 1];
+
+                // The single callback function to handle all intersections
+                const observerCallback = (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const sectionId = entry.target.id;
+                            
+                            navLinks.forEach(link => {
+                                link.classList.remove('active');
+                            });
+
+                            const activeNavLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+                            if (activeNavLink) {
+                                activeNavLink.classList.add('active');
+                            }
+                        }
+                    });
+                };
+
+                // --- Observer for all sections EXCEPT the last one ---
+                // This observer triggers when a section is near the top of the viewport.
+                const mainObserverOptions = {
+                    root: null,
+                    rootMargin: '0px 0px -80% 0px', // Adjusted margin for better triggering
+                    threshold: 0
+                };
+                const mainObserver = new IntersectionObserver(observerCallback, mainObserverOptions);
+
+                // --- Observer ONLY for the LAST section ---
+                // This observer triggers when the last section is near the bottom of the viewport.
+                // This ensures it becomes active even if it can't scroll to the top.
+                const lastSectionObserverOptions = {
+                    root: null,
+                    rootMargin: '-20% 0px 0px 0px', // Trigger when section is in the bottom 80% of the screen
+                    threshold: 0.1 // A small threshold to ensure it's visible
+                };
+                const lastSectionObserver = new IntersectionObserver(observerCallback, lastSectionObserverOptions);
+
+                // Attach the correct observer to each section
+                sections.forEach(section => {
+                    if (section.id === lastSection.id) {
+                        lastSectionObserver.observe(section);
+                    } else {
+                        mainObserver.observe(section);
+                    }
+                });
+
+                // Also handle the responsive navbar collapsing on click
+                const navbarToggler = document.body.querySelector('.navbar-toggler');
+                const responsiveNavItems = [].slice.call(
+                    document.querySelectorAll('#navbarResponsive .nav-link')
+                );
+                responsiveNavItems.map(function (responsiveNavItem) {
+                    responsiveNavItem.addEventListener('click', () => {
+                        if (window.getComputedStyle(navbarToggler).display !== 'none') {
+                            navbarToggler.click();
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
     </body>
 </html>
+
+
+
+
+
+
+
