@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -14,6 +15,215 @@
         <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        
+        <!-- gemeni vibe code script-->
+        <script defer>
+            window.addEventListener('DOMContentLoaded', event => {
+                // Function to calculate the height of the fixed navbar
+                function calculateNavbarHeight() {
+                const navbar = document.querySelector('.navbar');
+                return navbar ? navbar.offsetHeight : 0;
+                }
+
+                // Function to initialize or refresh scrollspy
+                function initScrollSpy() {
+                const sideNav = document.body.querySelector('#sideNav');
+                if (sideNav) {
+                    // Set the offset to the dynamically calculated height of the navbar
+                    const navbarHeight = calculateNavbarHeight();
+                    new bootstrap.ScrollSpy(document.body, {
+                    target: '#sideNav',
+                    offset: navbarHeight,
+                    });
+
+                    // Debugging: Log the current active section
+                    document.body.addEventListener('activate.bs.scrollspy', function (e) {
+                    console.log('Scrollspy active section:', e.target.querySelector('.active').getAttribute('href'));
+                    });
+                }
+                }
+
+                // Initialize scrollspy
+                initScrollSpy();
+
+                // Collapse responsive navbar when toggler is visible
+                const navbarToggler = document.body.querySelector('.navbar-toggler');
+                const responsiveNavItems = [].slice.call(
+                document.querySelectorAll('#navbarResponsive .nav-link')
+                );
+                responsiveNavItems.map(function (responsiveNavItem) {
+                responsiveNavItem.addEventListener('click', () => {
+                    if (window.getComputedStyle(navbarToggler).display !== 'none') {
+                    navbarToggler.click();
+                    }
+                });
+                });
+
+                // Recalculate and reinitialize scrollspy on window resize
+                window.addEventListener('resize', function() {
+                initScrollSpy();
+                });
+
+                // --- Logic to handle highlighting on page load based on hash ---
+                function handleHashOnLoad() {
+                const hash = window.location.hash || '#about';
+                const targetNavLink = document.querySelector(`.nav-link[href="${hash}"]`);
+
+                // Remove active class from all nav links
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                if (targetNavLink) {
+                    targetNavLink.classList.add('active');
+                } else {
+                    // Fallback to 'about' if no matching link
+                    const aboutLink = document.querySelector('.nav-link[href="#about"]');
+                    if (aboutLink) {
+                    aboutLink.classList.add('active');
+                    }
+                }
+                }
+
+                // Call handleHashOnLoad when the DOM is fully loaded
+                handleHashOnLoad();
+
+                // Optional: If you want to update the active class on hash changes (though Scrollspy should handle this during navigation)
+                window.addEventListener('hashchange', handleHashOnLoad);
+            });
+        </script>
+
+        <!-- <script defer> //AI vibe code to attempt to fix refresh issue
+            document.addEventListener('DOMContentLoaded', function() {
+                // Handle initial page load
+                highlightSectionFromHash();
+
+                // Handle hash changes
+                window.addEventListener('hashchange', highlightSectionFromHash);
+            });
+
+            function highlightSectionFromHash() {
+                // Remove all active classes first
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                // Get current hash
+                const hash = window.location.hash;
+
+                // If there's a hash, find and highlight the corresponding nav item
+                if (hash) {
+                    const navLink = document.querySelector(`.nav-link[href="${hash}"]`);
+                    if (navLink) {
+                        navLink.classList.add('active');
+
+                        // Scroll to the section
+                        const section = document.querySelector(hash);
+                        if (section) {
+                            section.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                } else {
+                    // Default to highlighting the "About" section if no hash
+                    const defaultLink = document.querySelector('.nav-link[href="#about"]');
+                    if (defaultLink) {
+                        defaultLink.classList.add('active');
+                    }
+                }
+            }
+        </script> -->
+        <!-- <script defer> //AI vibe code to attempt to fix refresh issue - kind of helps
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('DOM fully loaded and parsed');
+
+                // Initialize navigation
+                initializeNavigation();
+
+                // Log current hash on page load
+                console.log('Initial hash:', window.location.hash);
+
+                // Handle initial page load
+                handleHashChange();
+
+                // Handle hash changes
+                window.addEventListener('hashchange', function() {
+                    console.log('Hash changed to:', window.location.hash);
+                    handleHashChange();
+                });
+            });
+
+            function initializeNavigation() {
+                // Set up smooth scrolling for all anchor links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log('Nav link clicked:', this.getAttribute('href'));
+
+                        // Update URL without reloading
+                        const targetId = this.getAttribute('href');
+                        history.pushState(null, null, targetId);
+
+                        // Handle the navigation
+                        handleHashChange();
+                    });
+                });
+            }
+
+            function handleHashChange() {
+                console.log('Handling hash change...');
+
+                // Remove all active classes first
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    console.log('Removed active class from:', link.getAttribute('href'));
+                });
+
+                // Get current hash, default to 'about' if empty
+                const hash = window.location.hash || '#about';
+                console.log('Current hash:', hash);
+
+                // Find and highlight the corresponding nav item
+                const navLink = document.querySelector(`.nav-link[href="${hash}"]`);
+                if (navLink) {
+                    console.log('Found matching nav link:', hash);
+                    navLink.classList.add('active');
+
+                    // Scroll to the section with a small delay to ensure DOM is ready
+                    setTimeout(() => {
+                        const section = document.querySelector(hash);
+                        if (section) {
+                            console.log('Scrolling to section:', hash);
+                            section.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        } else {
+                            console.warn('Section not found:', hash);
+                        }
+                    }, 50);
+                } else {
+                    console.warn('No matching nav link found for hash:', hash);
+
+                    // If no matching nav link found, default to 'about'
+                    const defaultLink = document.querySelector('.nav-link[href="#about"]');
+                    if (defaultLink) {
+                        console.log('Defaulting to about section');
+                        defaultLink.classList.add('active');
+                        setTimeout(() => {
+                            const defaultSection = document.querySelector('#about');
+                            if (defaultSection) {
+                                defaultSection.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                            }
+                        }, 50);
+                    } else {
+                        console.error('Default about link not found!');
+                    }
+                }
+            }
+        </script> -->
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -32,7 +242,7 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#publications">Publications</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Skills</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Interests</a></li>
-		    <!--<li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Awards</a></li>-->
+		            <!--<li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Awards</a></li>-->
                 </ul>
             </div>
         </nav>
@@ -181,9 +391,9 @@
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
                             <h3 class="mb-0">IEEE Transactions on Instrumentation and Measurement</h3>
-                            <p>LeBlanc, A.; Trabelsi, S.; Rasheed, K.; Miller, J. M.; “Machine Learning Algorithms for Nondestructive Sensing of Moisture Content in Grain and Seed” IEEE Transactions on Instrumentation and Measurement.</p>
+                            <p>LeBlanc, A.; Trabelsi, S.; Rasheed, K.; Miller, J. M.; “Machine Learning Algorithms for Nondestructive Sensing of Moisture Content in Grain and Seed” IEEE Transactions on Instrumentation and Measurement. <a href=https://doi.org/10.1109/OJIM.2025.3568080>10.1109/OJIM.2025.3568080</a></p>
 			            </div>
-                        <div class="flex-shrink-0"><span class="text-primary">April, 2025</span></div>
+                        <div class="flex-shrink-0"><span class="text-primary">2025</span></div>
                     </div>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
@@ -195,21 +405,21 @@
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
                             <h3 class="mb-0">Journal of Polymer Science, Part A: Polymer Chemistry</h3>
-                            <p>Hensarling R, Hoff E, LeBlanc, A.; Guo, W.; Rahane, S.; Patton, D.; “Photocaged pendent thiol polymer brush surfaces for post-polymerization modifications via thiol-click chemistry” Journal of Polymer Science, Part A: Polymer Chemistry. 10.1002/pola.26468.</p>
+                            <p>Hensarling R, Hoff E, LeBlanc, A.; Guo, W.; Rahane, S.; Patton, D.; “Photocaged pendent thiol polymer brush surfaces for post-polymerization modifications via thiol-click chemistry” Journal of Polymer Science, Part A: Polymer Chemistry. <a href=https://doi.org/10.1002/pola.26468>10.1002/pola.26468</a></p>
 			            </div>
                         <div class="flex-shrink-0"><span class="text-primary">2012</span></div>
                     </div>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
                             <h3 class="mb-0">Macromolecular Rapid Communications</h3>
-                            <p>Guo W, Hensarling R, LeBlanc, A, Hoff E, Baranek A, Patton D, “Rapid Synthesis of Polymer Brush Surfaces via Microwave-Assisted Surface-Initiated Radical Polymerization” Macromolecular Rapid Communications. 2012, 33, 863-868. 10.1002/marc.201100829.</p>
+                            <p>Guo W, Hensarling R, LeBlanc, A, Hoff E, Baranek A, Patton D, “Rapid Synthesis of Polymer Brush Surfaces via Microwave-Assisted Surface-Initiated Radical Polymerization” Macromolecular Rapid Communications. 2012, 33, 863-868. <a href=https://doi.org/10.1002/marc.201100829>10.1002/marc.201100829</a></p>
 			            </div>
                         <div class="flex-shrink-0"><span class="text-primary">2012</span></div>
                     </div>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
                             <h3 class="mb-0">The Polymer Chemistry</h3>
-                            <p>Hensarling R, Rahane S, LeBlanc, A., Sparks B, White E, Locklin J, Patton D, “Thiol-Isocyanate “Click” Reactions: Rapid Development of Functional Polymeric Surfaces” The Polymer Chemistry. 2011, 2, 88-90. 10.1039/c0py00292e.</p>
+                            <p>Hensarling R, Rahane S, LeBlanc, A., Sparks B, White E, Locklin J, Patton D, “Thiol-Isocyanate “Click” Reactions: Rapid Development of Functional Polymeric Surfaces” The Polymer Chemistry. 2011, 2, 88-90. <a href=http://dx.doi.org/10.1039/c0py00292e>10.1039/c0py00292e</a></p>
 			            </div>
                         <div class="flex-shrink-0"><span class="text-primary">2011</span></div>
                     </div>
